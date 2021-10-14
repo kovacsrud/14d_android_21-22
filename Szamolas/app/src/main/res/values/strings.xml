@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Szamolas</string>
+    <string name="a_felirat">A:</string>
+    <string name="b_felirat">B:</string>
+    <string name="eredm_ny">Eredmény:</string>
+    <string name="sz_mol_s">Számolás</string>
+</resources>
