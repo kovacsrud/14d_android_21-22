@@ -24,7 +24,7 @@ Nézzük a projekt struktúrát:
 
 A legtöbb Android program nem pusztán egy képernyőből áll. Amikor több képernyőt használunk, akkor szükség van a képernyők közötti navigáció megvalósítására. 
 Első lépésként a gradle fájlokhoz hozzá kell adni a szükséges függőségeket.
-Gradle Scripts-en belül meg kell nyitni a build.gradle(Project...) fájlt, és abba a következőket beírni a dependencies részhez:
+Gradle Scripts-en belül meg kell nyitni a **build.gradle(Project...)** fájlt, és abba a következőket beírni a dependencies részhez:
 ```Kotlin
 dependencies {
         ...
@@ -32,6 +32,24 @@ dependencies {
         
     }
 ```
+Ezt követően meg kell nyitni a **build.gradle(Module..)** fájlt és abba a következőket megadni a **plugins** részen belül:
+A **...** azokat a részeket jelenti amelyek eleve benne vannak, tehát nem kell három pontot beírni!!!!!
 
+```Kotlin
+plugins {
+    ...
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs' 
+}
+```
 
+A függőségek részhez a következőket kell hozzáadni:
 
+```Kotlin
+dependencies {
+        ...
+        implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+        implementation "androidx.navigation:navigation-ui-ktx:2.3.5" 
+}
+```
+A **Sync** megnyomása után készen állunk a navigáció megvalósítására.
