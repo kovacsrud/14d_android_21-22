@@ -53,3 +53,27 @@ dependencies {
 }
 ```
 A **Sync** megnyomása után készen állunk a navigáció megvalósítására.
+
+Alakítsuk ki a fragmentek megfelelő layoutjait (gombok, textviewk stb)
+
+Hozzuk létre a navigációt megvalósító resource fájlt, a **Res(jobb gomb)->New->Android Resource File** paranccsal.
+**Resource type**-nak válasszuk a **Navigation**-t. Adjunk neki valami értelmes nevet (pl. navigation).
+
+A mainActivity layout fájljába tegyünk egy fragment elemet:
+Amit a működő navigációhoz meg kell adni:
+ - id
+ - name
+ - app:defaultNavHost
+ - app:navGraph
+
+```Kotlin
+  <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost='true'
+        app:navGraph='@navigation/navigation'
+
+  />
+```
