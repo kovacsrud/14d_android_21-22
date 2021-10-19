@@ -79,3 +79,21 @@ Amit a működő navigációhoz meg kell adni:
 ```
 Nyissuk meg a navigation.xml-t. Itt már látható(ha minden jó lett csinálva), hogy megvan a navhostfragment.
 Adjuk hozzá a navigációhoz az A, majd a B fragmentet. Az A fragment oldalán lévő kis kört meg kell fogni, és húzni a B-re, majd a b fölött elengedni. Ennek hatására legenerálódik automatikusan a két fragment közötti váltást megoldó metódus.
+
+Nyissuk meg azt a fragmentet (egész pontosan a forráskódját), amelyikről navigálni akarunk, ez most az AFragment.
+Ha a viewFindById-t akarjuk használni, akkor az nem lehet az OnCreateView metódusban megtenni, mert kivételt okoz fragment esetében, ezért ezeket a tevékenységeket az onViewCreated metódusban kell megtenni.
+A CTRL-O lenyomásával lehet megnyitni a felülírható metódusok listáját.
+Így nézzen ki ez a metódus (természetesen csak akkor jó, ha a Button id-je gomb!!!):
+```Kotlin
+ override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val button: Button =requireView().findViewById(R.id.gomb)
+        val navController=this.findNavController()
+
+        button.setOnClickListener {
+            navController.navigate(AFragmentDirections.actionAFragmentToBFragment())
+        }
+
+    }
+```
