@@ -97,3 +97,23 @@ A CTRL-O lenyomásával lehet megnyitni a felülírható metódusok listáját.
 
     }
 ```
+
+A visszafelé irányuló navigációhoz a MainActivity megnyitása szükséges.
+Az OnCreate metódusba kell a következő két sor:
+```Kotlin
+val navController=this.findNavController(R.id.nav_host_fragment)
+NavigationUI.setupActionBarWithNavController(this,navController)
+```
+Ezt követően felül kell írni az onSupportNavigateUp metódust, a metódusba a következő kód kerüljön:
+```Kotlin
+ val navController=this.findNavController(R.id.nav_host_fragment)
+ return navController.navigateUp() 
+```
+A teljes metódus tehát így néz ki:
+```Kotlin
+  override fun onSupportNavigateUp(): Boolean {
+        
+        val navController=this.findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp()
+    } 
+```
