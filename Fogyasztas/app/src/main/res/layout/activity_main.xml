@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="fogyasztas"
+            type="com.raz.fogyasztas.Fogyasztas" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/cim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fogyasztás kalkulátor"
+            android:textSize="28sp"
+            android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cim_ikon"
+            app:layout_constraintBottom_toBottomOf="@id/cim_ikon"
+            app:layout_constraintStart_toEndOf="@id/cim_ikon"/>
+
+        <ImageView
+            android:id="@+id/cim_ikon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:tint="@android:color/holo_blue_light"
+            android:src="@drawable/ic_gas_station"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/cim"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <ImageView
+            android:id="@+id/auto_ikon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_car"
+            app:tint="@android:color/holo_green_dark"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="@id/cim_ikon"
+            app:layout_constraintTop_toBottomOf="@id/cim_ikon"/>
+
+        <EditText
+            android:id="@+id/megtettKM_Edittext"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:inputType="number"
+            android:text="@{String.valueOf(fogyasztas.megtettKm)}"
+            app:layout_constraintTop_toTopOf="@id/auto_ikon"
+            app:layout_constraintBottom_toBottomOf="@id/auto_ikon"
+            app:layout_constraintEnd_toEndOf="@id/cim"
+            app:layout_constraintStart_toStartOf="@id/cim"/>
+
+        <ImageView
+            android:id="@+id/kut_ikon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_gas_station"
+            app:tint="@color/teal_700"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toStartOf="@id/cim_ikon"
+            app:layout_constraintTop_toBottomOf="@id/auto_ikon"/>
+
+        <EditText
+            android:id="@+id/tankoltLiter_Edittext"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:inputType="number"
+            android:text="@{String.valueOf(fogyasztas.tankoltLiter)}"
+            app:layout_constraintTop_toTopOf="@id/kut_ikon"
+            app:layout_constraintBottom_toBottomOf="@id/kut_ikon"
+            app:layout_constraintEnd_toEndOf="@id/cim"
+            app:layout_constraintStart_toStartOf="@id/cim"
+            />
+
+        <TextView
+            android:id="@+id/atlagFogyasztas"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@{String.valueOf(fogyasztas.atlagFogyasztas)}"
+            android:textSize="36sp"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@id/cim_ikon"
+            app:layout_constraintEnd_toEndOf="@id/cim"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/kut_ikon"
+            app:layout_constraintBottom_toTopOf="@id/gomb"/>
+
+        <Button
+            android:id="@+id/gomb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Számolás"
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="@id/cim_ikon"
+            app:layout_constraintEnd_toEndOf="@id/cim"
+            app:layout_constraintTop_toBottomOf="@id/atlagFogyasztas"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
