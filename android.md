@@ -20,5 +20,18 @@ Nézzük a projekt struktúrát:
 
 **Res/values/themes**: Az alkalmazásban használt témák találhatóak itt.
 
+## Navigáció megvalósítása Android programban
+
+A legtöbb Android program nem pusztán egy képernyőből áll. Amikor több képernyőt használunk, akkor szükség van a képernyők közötti navigáció megvalósítására. 
+Első lépésként a gradle fájlokhoz hozzá kell adni a szükséges függőségeket.
+Gradle Scripts-en belül meg kell nyitni a build.gradle(Project...) fájlt, és abba a következőket beírni:
+```Kotlin
+dependencies {
+        ...
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        
+    }
+```
+
 
 
