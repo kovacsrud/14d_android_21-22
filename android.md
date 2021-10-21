@@ -126,4 +126,15 @@ A name legyen:**opmenu**
 
 Adjunk hozzá egy menuitem-et! A **Title** legyen **B elem**, az **id** pedig **BFragment**
 
+A menü xml kódja most így néz ki:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/BFragment"
+        android:title="B elem" />
+</menu>
+```
+
 
