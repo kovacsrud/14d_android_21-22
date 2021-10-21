@@ -159,4 +159,17 @@ Ez a parancs végzi a menü 'felfújását', azaz létrehozását.
         inflater?.inflate(R.menu.opmenu,menu)
     }
 ```
+A következő az OnOptionsItemSelected felülírása:
 
+Ebbe a metódusba a következő sor kerül:
+```kotlin
+   return NavigationUI.onNavDestinationSelected(item,requireView().findNavController())
+```
+Ezt egy or (||) logikai kapcsolattal kötjük össze az ős osztály metódusának hívásával.
+
+```kotlin
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,requireView().findNavController()) ||
+        return super.onOptionsItemSelected(item)
+    }
+```
