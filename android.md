@@ -137,4 +137,26 @@ A menü xml kódja most így néz ki:
 </menu>
 ```
 
+### A szükséges kódok
+
+Az AFragment fogja megvalósítani a menüt, ennek a kódját kell megnyitni.
+
+Az OnCreateView metódushoz adjuk hozzá a következő sor:
+```kotlin
+setHasOptionsMenu(true)
+```
+Ezután két metódust kell felülírni, használjuk a CTRL-O kombinációt.
+Az első az onCreateOptionsMenu, ehhez a következő sort kell hozzáadni:
+```kotlin
+        inflater?.inflate(R.menu.opmenu,menu)
+```
+
+Ez a parancs végzi a menü 'felfújását', azaz létrehozását.
+
+```kotlin
+ override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.opmenu,menu)
+    }
+```
 
