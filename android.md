@@ -117,3 +117,13 @@ A teljes metódus tehát így néz ki:
         return navController.navigateUp()
     } 
 ```
+
+## Navigáció létrehozása menüvel
+
+Első lépésben készíteni kell egy menüt. 
+**Res->New->Android Resource File**-ra kattintsunk. A megnyíló ablakban a **Resource Type** legyen **menu**.
+A name legyen:**opmenu**
+
+Adjunk hozzá egy menuitem-et! A **Title** legyen **B elem**, az **id** pedig **BFragment**
+
+
