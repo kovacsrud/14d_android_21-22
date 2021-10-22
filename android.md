@@ -262,5 +262,20 @@ Az OnCreate fölé a következő deklarációk:
  private lateinit var appBarConfiguration: AppBarConfiguration
 ```        
         
-
-
+Az OnCreate-be:
+```kotlin
+val navController=this.findNavController(R.id.nav_host_fragment)
+drawerLayout=findViewById(R.id.drawerLayout)
+val navigationView:NavigationView=findViewById(R.id.navView)
+NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
+        
+appBarConfiguration= AppBarConfiguration(navController.graph,drawerLayout)
+NavigationUI.setupWithNavController(navigationView, navController)        
+        
+``` 
+Az OnSupportNavigateUP() is módosul, navController.navigateUp helyett NavigationUI.navigateUp lesz:
+```kotlin
+   val navController=this.findNavController(R.id.nav_host_fragment)
+   //return navController.navigateUp()
+   return NavigationUI.navigateUp(navController,drawerLayout)        
+```        
