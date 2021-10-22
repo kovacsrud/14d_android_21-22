@@ -207,3 +207,54 @@ Az első lépés egy újabb menü készítése, amit majd a Navigation Drawer ha
 Egy menüpontot vegyünk fel, ami a CFragment-re navigál, a Title legyen C elem.
 
 Ezt követően módosítani kell a MainActivity layoutját.
+A felépítés a következő lesz:
+A kezdő tag <layout> lesz. Ebbe kerül az **androidx.drawerlayout.widget.DrawerLayout**, ez fogja magába foglalni a
+ConstraintLayout-ot, valamint a ConstraintLayout után egy NavigationView taget.
+Így fog kinézni:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+   <androidx.drawerlayout.widget.DrawerLayout
+       android:id="@+id/drawerLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+            <fragment
+              android:id="@+id/nav_host_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:name="androidx.navigation.fragment.NavHostFragment"
+              app:defaultNavHost='true'
+              app:navGraph='@navigation/navigation'
+
+
+            />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+       <com.google.android.material.navigation.NavigationView
+           android:id="@+id/navView"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_gravity="start"
+           app:menu="@menu/drawermenu"
+           />
+
+
+   </androidx.drawerlayout.widget.DrawerLayout>
+
+    </layout>        
+```
+        
+
+        
+
+
