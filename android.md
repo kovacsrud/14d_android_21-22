@@ -190,8 +190,14 @@ A BFragment kódjának az **OnViewCreated** metódusába tegyük a következő k
 ```
 A Textview szövegét így tudjuk megváltoztatni:
 ```Kotlin
-szoveg.text=args.uzenet 
+szoveg.text=args.sendData 
 ```
 
 Ne feledjük, hogy az AFragmentnél a SetOnClickListenerben, most már át kell adnunk szöveget paraméterként!
+
+```kotlin
+button.setOnClickListener {
+            navController.navigate(AFragmentDirections.actionAFragmentToBFragment("Végre péntek!"))
+        }
+```
 
