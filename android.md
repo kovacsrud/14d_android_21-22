@@ -201,3 +201,9 @@ button.setOnClickListener {
         }
 ```
 
+## Navigation Drawer készítése
+
+Az első lépés egy újabb menü készítése, amit majd a Navigation Drawer használni fog. A menü neve legyen **drawermenu**
+Egy menüpontot vegyünk fel, ami a CFragment-re navigál, a Title legyen C elem.
+
+Ezt követően módosítani kell a MainActivity layoutját.
