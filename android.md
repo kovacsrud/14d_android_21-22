@@ -254,7 +254,13 @@ ConstraintLayout-ot, valamint a ConstraintLayout után egy NavigationView taget.
     </layout>        
 ```
         
-
+A MainActivity-be a következő kódok kellenek:
+        
+Az OnCreate fölé a következő deklarációk:
+```kotlin
+ private lateinit var drawerLayout: DrawerLayout
+ private lateinit var appBarConfiguration: AppBarConfiguration
+```        
         
 
 
