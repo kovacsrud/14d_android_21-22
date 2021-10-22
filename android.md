@@ -173,3 +173,25 @@ Ezt egy or (||) logikai kapcsolattal kötjük össze az ős osztály metódusán
         return super.onOptionsItemSelected(item)
     }
 ```
+
+### Adat küldése egy adott fragmentnek
+
+Gyakran van arra szükség, hogy adatot, vagy adatokat juttassunk át egy fragment részére. Azért hogy ez érték -és típusbiztosan történjen, az Android a safeargs plugint alkalmazza.
+
+ - Első lépésben meg kell nyitni a navigációt, azaz a navigation.xml-t
+ - Ki kell választani azt a fragmentet, amelyiknek adatot akarunk átadni. (Ez most a BFragment)
+ - Keressük meg az Attributes-nél az Arguments részt.
+ - Nyomjuk meg a + ,a name mezőbe írjuk be, hogy sendAdat. 
+ - A típusnak String-et válasszunk.
+
+A BFragment kódjának az **OnViewCreated** metódusába tegyük a következő kódot:
+```Kotlin
+  var args=BFragmentArgs.fromBundle(requireArguments()) 
+```
+A Textview szövegét így tudjuk megváltoztatni:
+```Kotlin
+szoveg.text=args.uzenet 
+```
+
+Ne feledjük, hogy az AFragmentnél a SetOnClickListenerben, most már át kell adnunk szöveget paraméterként!
+
