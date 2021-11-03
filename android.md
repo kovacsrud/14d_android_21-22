@@ -291,5 +291,12 @@ Láttuk hogy a programban deklarált változók nem élik túl az életciklus v�
 ## ViewModel használata az alkalmazásban
 Készítsünk egy egyszerű alkalmazást, amely viewmodelt használ. Az alkalmazás csak annyit fog tudni, hogy egy értéket tudunk majd növelni, vagy csökkenteni.
         
+Először adjuk hozzá a szükséges függőségeket az alkalmazáshoz, valamint állítsuk be az adatkötés használatát. Mindkettőt a build.gradle(Module:..) fájlban.
+Adatkötés használata:
+```kotlin
+ buildFeatures {
+    dataBinding true
+ }
+```        
         
         
