@@ -303,3 +303,25 @@ Lifecycle extension
 implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'        
 ```        
         
+Hozzunk létre egy új osztályt **PracticeViewModel** néven!
+```kotlin
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+class PracticeViewModel: ViewModel() {
+    var adatErtek=MutableLiveData<Int>()
+
+    init {
+        adatErtek.value=0
+    }
+
+    fun Novel(){
+        adatErtek.value=adatErtek.value?.plus(1)
+
+    }
+
+    fun Csokkent(){
+        adatErtek.value=adatErtek.value?.minus(1)
+    }
+}
+```        
