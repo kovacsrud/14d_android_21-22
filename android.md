@@ -325,3 +325,25 @@ class PracticeViewModel: ViewModel() {
     }
 }
 ```        
+A MainActivityben deklaráljuk az adatkötést, és a viewmodel-t
+```kotlin
+private lateinit var binding:ActivityMainBinding
+private lateinit var viewModel: PracticeViewModel
+```        
+Ezt követően értéket is kell adni nekik.
+A databinding a szokásos módon megy:
+```kotlin
+binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+```        
+A viewmodel példányosítása nem a megszokott módon megy, ugyanis itt a példányt egy ViewModelProvider-től kell elkérni:
+```kotlin
+ viewModel=ViewModelProvider(this).get(PracticeViewModel::class.java)
+```
+Beállítjuk a bindingot:
+```kotlin
+ binding.viewmodel=viewModel
+```
+Valamint az ún. lifecycleownert
+```kotlin
+binding.setLifecycleOwner(this)
+```
