@@ -297,6 +297,9 @@ Adatkötés használata:
  buildFeatures {
     dataBinding true
  }
+```
+Lifecycle extension
+```kotlin
+implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'        
 ```        
-        
         
