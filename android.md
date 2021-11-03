@@ -347,3 +347,24 @@ Valamint az ún. lifecycleownert
 ```kotlin
 binding.setLifecycleOwner(this)
 ```
+Az activity_main.xml-ben a következőket kell megtenni:
+Ne feledjük a layout-ot data binding layout-ra konvertálni!
+Be kell állítani, hogy milyen osztályt akarunk bindingolni:
+```xml
+ <data>
+        <variable
+            name="viewmodel"
+            type="com.razgon.viewmodelpractice.PracticeViewModel" />
+
+</data>
+```
+Figyelem, a type mindenkinél egyéni lehet!!!
+Az értéket megjelenítő TextView text tulajdonságához kötjük be a viewmodel-ben lévő értéket:
+```xml
+android:text="@{viewmodel.adatErtek.toString()}"        
+```
+A gombokhoz pedig a viewmodelben definiált függvényeket.
+```xml
+android:onClick="@{()->viewmodel.Novel()}"
+```
+A másik gombhoz a másik függvényt, értelemszerűen.
