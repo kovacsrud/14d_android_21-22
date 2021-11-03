@@ -279,3 +279,17 @@ Az OnSupportNavigateUP() is módosul, navController.navigateUp helyett Navigatio
    //return navController.navigateUp()
    return NavigationUI.navigateUp(navController,drawerLayout)        
 ```        
+## Az Activity-k életciklusa
+Egy Android program alapvetően a következő 4 állapot valamelyikében lehet:
+ - Running - Az alkalmazás az előtérben fut
+ - Paused - Az alkalmazás bár látható, de elvesztette a fókusz, szünetel
+ - Stopped - Ha egy másik tevékenység teljes egészében letakarja, akkor leáll, de minden állapot és taginformációja megőrződik
+ - Finished/killed - Szünetelő, vagy leállított Activity esetében az operációs rendszer dönthet úgy, hogy az Activity-t befejezi, vagy  egyszerűen kitörli. Ilyenkor áll be ez az állapot.
+        
+Láttuk hogy a programban deklarált változók nem élik túl az életciklus változásait pl. elfordítás. Ha az adatokat szeretnénk megőrizni, akkor ViewModel-t kell használni.
+        
+## ViewModel használata az alkalmazásban
+Készítsünk egy egyszerű alkalmazást, amely viewmodelt használ. Az alkalmazás csak annyit fog tudni, hogy egy értéket tudunk majd növelni, vagy csökkenteni.
+        
+        
+        
