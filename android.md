@@ -117,3 +117,254 @@ A teljes metódus tehát így néz ki:
         return navController.navigateUp()
     } 
 ```
+
+## Navigáció létrehozása menüvel
+
+Első lépésben készíteni kell egy menüt. 
+**Res->New->Android Resource File**-ra kattintsunk. A megnyíló ablakban a **Resource Type** legyen **menu**.
+A name legyen:**opmenu**
+
+Adjunk hozzá egy menuitem-et! A **Title** legyen **B elem**, az **id** pedig **BFragment**
+
+A menü xml kódja most így néz ki:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/BFragment"
+        android:title="B elem" />
+</menu>
+```
+
+### A szükséges kódok
+
+Az AFragment fogja megvalósítani a menüt, ennek a kódját kell megnyitni.
+
+Az OnCreateView metódushoz adjuk hozzá a következő sor:
+```kotlin
+setHasOptionsMenu(true)
+```
+Ezután két metódust kell felülírni, használjuk a CTRL-O kombinációt.
+Az első az onCreateOptionsMenu, ehhez a következő sort kell hozzáadni:
+```kotlin
+        inflater?.inflate(R.menu.opmenu,menu)
+```
+
+Ez a parancs végzi a menü 'felfújását', azaz létrehozását.
+
+```kotlin
+ override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.opmenu,menu)
+    }
+```
+A következő az OnOptionsItemSelected felülírása:
+
+Ebbe a metódusba a következő sor kerül:
+```kotlin
+   return NavigationUI.onNavDestinationSelected(item,requireView().findNavController())
+```
+Ezt egy or (||) logikai kapcsolattal kötjük össze az ős osztály metódusának hívásával.
+
+```kotlin
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,requireView().findNavController()) ||
+        return super.onOptionsItemSelected(item)
+    }
+```
+
+### Adat küldése egy adott fragmentnek
+
+Gyakran van arra szükség, hogy adatot, vagy adatokat juttassunk át egy fragment részére. Azért hogy ez érték -és típusbiztosan történjen, az Android a safeargs plugint alkalmazza.
+
+ - Első lépésben meg kell nyitni a navigációt, azaz a navigation.xml-t
+ - Ki kell választani azt a fragmentet, amelyiknek adatot akarunk átadni. (Ez most a BFragment)
+ - Keressük meg az Attributes-nél az Arguments részt.
+ - Nyomjuk meg a + ,a name mezőbe írjuk be, hogy sendAdat. 
+ - A típusnak String-et válasszunk.
+
+A BFragment kódjának az **OnViewCreated** metódusába tegyük a következő kódot:
+```Kotlin
+  var args=BFragmentArgs.fromBundle(requireArguments()) 
+```
+A Textview szövegét így tudjuk megváltoztatni:
+```Kotlin
+szoveg.text=args.sendData 
+```
+
+Ne feledjük, hogy az AFragmentnél a SetOnClickListenerben, most már át kell adnunk szöveget paraméterként!
+
+```kotlin
+button.setOnClickListener {
+            navController.navigate(AFragmentDirections.actionAFragmentToBFragment("Végre péntek!"))
+        }
+```
+
+## Navigation Drawer készítése
+
+Az első lépés egy újabb menü készítése, amit majd a Navigation Drawer használni fog. A menü neve legyen **drawermenu**
+Egy menüpontot vegyünk fel, ami a CFragment-re navigál, a Title legyen C elem.
+
+Ezt követően módosítani kell a MainActivity layoutját.
+A felépítés a következő lesz:
+A kezdő tag <layout> lesz. Ebbe kerül az **androidx.drawerlayout.widget.DrawerLayout**, ez fogja magába foglalni a
+ConstraintLayout-ot, valamint a ConstraintLayout után egy NavigationView taget.
+Így fog kinézni:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+   <androidx.drawerlayout.widget.DrawerLayout
+       android:id="@+id/drawerLayout"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+            <fragment
+              android:id="@+id/nav_host_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:name="androidx.navigation.fragment.NavHostFragment"
+              app:defaultNavHost='true'
+              app:navGraph='@navigation/navigation'
+
+
+            />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+       <com.google.android.material.navigation.NavigationView
+           android:id="@+id/navView"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_gravity="start"
+           app:menu="@menu/drawermenu"
+           />
+
+
+   </androidx.drawerlayout.widget.DrawerLayout>
+
+    </layout>        
+```
+        
+A MainActivity-be a következő kódok kellenek:
+        
+Az OnCreate fölé a következő deklarációk:
+```kotlin
+ private lateinit var drawerLayout: DrawerLayout
+ private lateinit var appBarConfiguration: AppBarConfiguration
+```        
+        
+Az OnCreate-be:
+```kotlin
+val navController=this.findNavController(R.id.nav_host_fragment)
+drawerLayout=findViewById(R.id.drawerLayout)
+val navigationView:NavigationView=findViewById(R.id.navView)
+NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
+        
+appBarConfiguration= AppBarConfiguration(navController.graph,drawerLayout)
+NavigationUI.setupWithNavController(navigationView, navController)        
+        
+``` 
+Az OnSupportNavigateUP() is módosul, navController.navigateUp helyett NavigationUI.navigateUp lesz:
+```kotlin
+   val navController=this.findNavController(R.id.nav_host_fragment)
+   //return navController.navigateUp()
+   return NavigationUI.navigateUp(navController,drawerLayout)        
+```        
+## Az Activity-k életciklusa
+Egy Android program alapvetően a következő 4 állapot valamelyikében lehet:
+ - Running - Az alkalmazás az előtérben fut
+ - Paused - Az alkalmazás bár látható, de elvesztette a fókusz, szünetel
+ - Stopped - Ha egy másik tevékenység teljes egészében letakarja, akkor leáll, de minden állapot és taginformációja megőrződik
+ - Finished/killed - Szünetelő, vagy leállított Activity esetében az operációs rendszer dönthet úgy, hogy az Activity-t befejezi, vagy  egyszerűen kitörli. Ilyenkor áll be ez az állapot.
+        
+Láttuk hogy a programban deklarált változók nem élik túl az életciklus változásait pl. elfordítás. Ha az adatokat szeretnénk megőrizni, akkor ViewModel-t kell használni.
+        
+## ViewModel használata az alkalmazásban
+Készítsünk egy egyszerű alkalmazást, amely viewmodelt használ. Az alkalmazás csak annyit fog tudni, hogy egy értéket tudunk majd növelni, vagy csökkenteni.
+        
+Először adjuk hozzá a szükséges függőségeket az alkalmazáshoz, valamint állítsuk be az adatkötés használatát. Mindkettőt a build.gradle(Module:..) fájlban.
+Adatkötés használata:
+```kotlin
+ buildFeatures {
+    dataBinding true
+ }
+```
+Lifecycle extension
+```kotlin
+implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'        
+```        
+        
+Hozzunk létre egy új osztályt **PracticeViewModel** néven!
+```kotlin
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+class PracticeViewModel: ViewModel() {
+    var adatErtek=MutableLiveData<Int>()
+
+    init {
+        adatErtek.value=0
+    }
+
+    fun Novel(){
+        adatErtek.value=adatErtek.value?.plus(1)
+
+    }
+
+    fun Csokkent(){
+        adatErtek.value=adatErtek.value?.minus(1)
+    }
+}
+```        
+A MainActivityben deklaráljuk az adatkötést, és a viewmodel-t
+```kotlin
+private lateinit var binding:ActivityMainBinding
+private lateinit var viewModel: PracticeViewModel
+```        
+Ezt követően értéket is kell adni nekik.
+A databinding a szokásos módon megy:
+```kotlin
+binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+```        
+A viewmodel példányosítása nem a megszokott módon megy, ugyanis itt a példányt egy ViewModelProvider-től kell elkérni:
+```kotlin
+ viewModel=ViewModelProvider(this).get(PracticeViewModel::class.java)
+```
+Beállítjuk a bindingot:
+```kotlin
+ binding.viewmodel=viewModel
+```
+Valamint az ún. lifecycleownert
+```kotlin
+binding.setLifecycleOwner(this)
+```
+Az activity_main.xml-ben a következőket kell megtenni:
+Ne feledjük a layout-ot data binding layout-ra konvertálni!
+Be kell állítani, hogy milyen osztályt akarunk bindingolni:
+```xml
+ <data>
+        <variable
+            name="viewmodel"
+            type="com.razgon.viewmodelpractice.PracticeViewModel" />
+
+</data>
+```
+Figyelem, a type mindenkinél egyéni lehet!!!
+Az értéket megjelenítő TextView text tulajdonságához kötjük be a viewmodel-ben lévő értéket:
+```xml
+android:text="@{viewmodel.adatErtek.toString()}"        
+```
+A gombokhoz pedig a viewmodelben definiált függvényeket.
+```xml
+android:onClick="@{()->viewmodel.Novel()}"
+```
+A másik gombhoz a másik függvényt, értelemszerűen.
