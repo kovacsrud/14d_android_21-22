@@ -405,3 +405,18 @@ class PracticeViewModelFactory(private val ertek:Int):ViewModelProvider.Factory 
 }
 ```
 A fejlécben deklaráljuk a bejövő értéket, valamilyen néven, ez most ertek. Ez az osztály egy interfészt valósít meg gyakorlatilag. Ha a modelClass megegyezik a megadott ViewModel-el, akkor létrehozza, egyébként kivételt dob.
+
+A mainactivity-ben a következők változások lesznek szükségesek:
+ - először is deklarálni kell factory osztályt
+```kotlin
+private lateinit var viewModelFactory: PracticeViewModelFactory
+```
+Ezt követően létrehozni:
+```kotlin
+viewModelFactory=PracticeViewModelFactory(10)
+```
+A viewmodel létrehozása annyiban módosul, hogy a this mellett a factory-t is át kell adni.
+```kotlin
+viewModel=ViewModelProvider(this,viewModelFactory).get(PracticeViewModel::class.java)
+```
+        
