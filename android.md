@@ -368,3 +368,55 @@ A gombokhoz pedig a viewmodelben definiált függvényeket.
 android:onClick="@{()->viewmodel.Novel()}"
 ```
 A másik gombhoz a másik függvényt, értelemszerűen.
+        
+        
+## ViewModelFactory használata
+
+Az egyszerű viewmodel nem ad lehetőséget arra, hogy kezdőértéket adjunk át neki. Ha erre van szükség, akkor ViewModelFactory-t kell használni.
+Először is módosítsuk a ViewModel-t hogy tudjon fogadni bejövő paramétert. Az ertek.value most a bejövő paramétert kapja meg.
+```kotlin
+class PracticeViewModel(beErtek:Int):ViewModel() {
+
+    var ertek=MutableLiveData<Int>()
+    init {
+        ertek.value=beErtek
+    }
+
+    fun Novel(){
+        ertek.value=ertek.value?.plus(1)
+    }
+    fun Csokkent(){
+        ertek.value=ertek.value?.minus(1)
+    }
+
+}
+```        
+Hozzuk létre a ViewModelFactory-t legyen a neve PracticeViewModelFactory
+```kotlin
+class PracticeViewModelFactory(private val ertek:Int):ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PracticeViewModel::class.java)) {
+            return PracticeViewModel(ertek) as T
+        } else {
+            throw IllegalArgumentException("Ismeretlen ViewModel!")
+        }
+    }
+
+}
+```
+A fejlécben deklaráljuk a bejövő értéket, valamilyen néven, ez most ertek. Ez az osztály egy interfészt valósít meg gyakorlatilag. Ha a modelClass megegyezik a megadott ViewModel-el, akkor létrehozza, egyébként kivételt dob.
+
+A mainactivity-ben a következők változások lesznek szükségesek:
+ - először is deklarálni kell factory osztályt
+```kotlin
+private lateinit var viewModelFactory: PracticeViewModelFactory
+```
+Ezt követően létrehozni:
+```kotlin
+viewModelFactory=PracticeViewModelFactory(10)
+```
+A viewmodel létrehozása annyiban módosul, hogy a this mellett a factory-t is át kell adni.
+```kotlin
+viewModel=ViewModelProvider(this,viewModelFactory).get(PracticeViewModel::class.java)
+```
+        
