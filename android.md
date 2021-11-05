@@ -368,3 +368,28 @@ A gombokhoz pedig a viewmodelben definiált függvényeket.
 android:onClick="@{()->viewmodel.Novel()}"
 ```
 A másik gombhoz a másik függvényt, értelemszerűen.
+        
+        
+## ViewModelFactory használata
+
+Az egyszerű viewmodel nem ad lehetőséget arra, hogy kezdőértéket adjunk át neki. Ha erre van szükség, akkor ViewModelFactory-t kell használni.
+Először is módosítsuk a ViewModel-t hogy tudjon fogadni bejövő paramétert. Az ertek.value most a bejövő paramétert kapja meg.
+```kotlin
+class PracticeViewModel(beErtek:Int):ViewModel() {
+
+    var ertek=MutableLiveData<Int>()
+    init {
+        ertek.value=beErtek
+    }
+
+    fun Novel(){
+        ertek.value=ertek.value?.plus(1)
+    }
+    fun Csokkent(){
+        ertek.value=ertek.value?.minus(1)
+    }
+
+}
+```        
+        
+        
