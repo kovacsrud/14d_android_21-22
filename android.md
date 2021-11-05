@@ -391,5 +391,17 @@ class PracticeViewModel(beErtek:Int):ViewModel() {
 
 }
 ```        
-        
-        
+Hozzuk létre a ViewModelFactory-t legyen a neve PracticeViewModelFactory
+```kotlin
+class PracticeViewModelFactory(private val ertek:Int):ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(PracticeViewModel::class.java)) {
+            return PracticeViewModel(ertek) as T
+        } else {
+            throw IllegalArgumentException("Ismeretlen ViewModel!")
+        }
+    }
+
+}
+```
+A fejlécben deklaráljuk a bejövő értéket, valamilyen néven, ez most ertek. Ez az osztály egy interfészt valósít meg gyakorlatilag. Ha a modelClass megegyezik a megadott ViewModel-el, akkor létrehozza, egyébként kivételt dob.
