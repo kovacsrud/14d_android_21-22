@@ -462,3 +462,17 @@ Adatkötés használata:
  }
 ```
 A **Sync** megnyomása után készen állunk a navigáció megvalósítására.
+
+Az activity_main.xml be tegyük be a következőt:
+
+```Kotlin
+  <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost='true'
+        app:navGraph='@navigation/navigation'
+
+  />
+```
