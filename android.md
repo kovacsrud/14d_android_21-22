@@ -420,3 +420,39 @@ A viewmodel létrehozása annyiban módosul, hogy a this mellett a factory-t is 
 viewModel=ViewModelProvider(this,viewModelFactory).get(PracticeViewModel::class.java)
 ```
         
+## Listakezelés a programban, RecyclerView használata.
+
+A legtöbb mobil app használ listát. Android esetén kizárólag a RecyclerView használatát javasolják, mert ez a komponens nagy számú listaelem esetén is jó teljesítményt nyújt(nem akad meg a görgetés stb.)
+Cserébe az implementálása nem annyira egyszerű.
+Az app navigációt is fog alkalmazni, ezért az ehhez szükséges függőségeket is telepíteni kell, mint korábban.
+        
+Gradle Scripts-en belül meg kell nyitni a **build.gradle(Project...)** fájlt, és abba a következőket beírni a dependencies részhez:
+```Kotlin
+dependencies {
+        ...
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        
+    }
+```
+Ezt követően meg kell nyitni a **build.gradle(Module..)** fájlt és abba a következőket megadni a **plugins** részen belül:
+A **...** azokat a részeket jelenti amelyek eleve benne vannak, tehát nem kell három pontot beírni!!!!!
+
+```Kotlin
+plugins {
+    ...
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs' 
+}
+```
+
+A függőségek részhez a következőket kell hozzáadni:
+
+```Kotlin
+dependencies {
+        ...
+        implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+        implementation "androidx.navigation:navigation-ui-ktx:2.3.5" 
+        implementation "androidx.recyclerview:recyclerview:1.2.1"
+}
+```
+A **Sync** megnyomása után készen állunk a navigáció megvalósítására.
