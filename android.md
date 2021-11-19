@@ -486,7 +486,9 @@ Hozzunk létre egy új osztályt PersonAdapter néven.
 Az osztály kezdő kódja:
 ```kotlin
 class PersonAdapter(private val context:Context,val data:List<Person>) {
-
+        class PersonViewHolder(){
+    
+        }
 }
 ```
         
