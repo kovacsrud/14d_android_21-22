@@ -674,3 +674,17 @@ class DetailFragment : Fragment() {
 
 }
 ```
+Navigáció a listára:
+Nyissuk meg a MainActiviy-t
+Az OnCreate-be jön a következő két sor:
+```kotlin
+  val navController=this.findNavController(R.id.nav_host_fragment)
+  NavigationUI.setupActionBarWithNavController(this,navController) 
+```
+Végezetül felül kell írni az OnSupportNavigateUp metódust:
+```kotlin
+ override fun onSupportNavigateUp(): Boolean {
+        val navController=this.findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp()
+    } 
+```
