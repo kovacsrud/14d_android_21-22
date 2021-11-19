@@ -576,3 +576,10 @@ class PersonAdapter(private val context: Context, val data:List<Person>,val OnIt
         ...
 }
 ```        
+Az OnBindViewHolder-t egészítsük ki:
+```kotlin
+holder?.itemView.setOnClickListener {
+     OnItemClick(aktData,position)
+}
+
+```        
