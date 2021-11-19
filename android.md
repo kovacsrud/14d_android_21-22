@@ -491,4 +491,14 @@ class PersonAdapter(private val context:Context,val data:List<Person>) {
         }
 }
 ```
+Származtassuk le a megfelelő osztályokból:
+```kotlin
+class PersonAdapter(private val context:Context,val data:List<Person>):RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
+
+    class PersonViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         
+    }
+
+
+}
+```
