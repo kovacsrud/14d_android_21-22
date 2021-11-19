@@ -502,3 +502,11 @@ class PersonAdapter(private val context:Context,val data:List<Person>):RecyclerV
 
 }
 ```
+A PersonViewHolder-ben azonosítjuk, deklaráljuk azokat az elemeket, amit a lista megjelenít
+```kotlin
+ class PersonViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+            var vezeteknev:TextView=itemView.findViewById(R.id.vezeteknev)
+            var keresztnev:TextView=itemView.findViewById(R.id.keresztnev)
+        
+    }
+```
