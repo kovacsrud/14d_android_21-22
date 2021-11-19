@@ -567,3 +567,12 @@ Az OnCreateView így fog kinézni
         
     }
 ```
+## A lista elemeinek kattinthatóvá tétele
+
+A lista megjelenik, a következő feladat az elemeinek kattinthatóvá tétele.
+A PersonAdapter osztály fejlécéhez adjuk hozzá a következőt: val OnItemClick:((Person,Int)->Unit)
+```kotlin
+class PersonAdapter(private val context: Context, val data:List<Person>,val OnItemClick:((Person,Int)->Unit)):RecyclerView.Adapter<PersonAdapter.PersonViewHolder>(){
+        ...
+}
+```        
