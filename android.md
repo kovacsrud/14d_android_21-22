@@ -505,8 +505,8 @@ class PersonAdapter(private val context:Context,val data:List<Person>):RecyclerV
 A PersonViewHolder-ben azonosítjuk, deklaráljuk azokat az elemeket, amit a lista megjelenít
 ```kotlin
  class PersonViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-            var vezeteknev:TextView=itemView.findViewById(R.id.vezeteknev)
-            var keresztnev:TextView=itemView.findViewById(R.id.keresztnev)
+            var vezeteknev:TextView=itemView.findViewById(R.id.list_vezeteknev)
+            var keresztnev:TextView=itemView.findViewById(R.id.list_keresztnev)
         
     }
 ```
@@ -525,5 +525,45 @@ Valósítsuk meg az osztály által igényelt metódusokat.
 
     override fun getItemCount(): Int {
        return data.size
+    }
+```
+## A ListFragmentben deklaráljuk a következőket:
+```kotlin
+private lateinit var binding:FragmentListBinding
+private lateinit var layoutManager:LinearLayoutManager
+private  lateinit var adapter: PersonAdapter
+```
+Az OnCreateView így fog kinézni
+```kotlin
+  override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        var adatok= listOf(
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997)
+
+        )
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_list,container,false)
+        adapter= PersonAdapter(requireContext(),adatok)
+        layoutManager= LinearLayoutManager(requireContext())
+        binding.lista.layoutManager=layoutManager
+        binding.lista.adapter=adapter
+
+
+        return binding.root
+        
     }
 ```
