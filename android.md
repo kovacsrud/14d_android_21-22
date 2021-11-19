@@ -630,3 +630,14 @@ data class Person(
 ) :Parcelable{}
 
 ```
+Meg kell nyitni a navigációt.
+ - Válasszuk ki a detailFragmentet
+ - Jobb oldalon keressük meg a következőt: **Arguments**
+ - Kattintsunk a **+**-ra
+ - A Type-nál gördítsük le a menüt, válasszuk a Custom Parcelable-t, itt meg fogjuk találni az osztályt
+ - adjunk nevet neki (aktPerson)
+
+Nyissuk meg a DetailFragment-et!
+
+        
+        
