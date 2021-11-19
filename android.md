@@ -611,3 +611,11 @@ adapter= PersonAdapter(requireContext(),adatok){
         navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment())
    }
 ```
+A következő lépés, hogy betöltsük az osztályok szerializációját végző plugint. A build.gradle(Modules..) fájlt nyissuk meg, a pluginekhez adjuk hozzá a következőt:
+```kotlin
+plugins {
+    ...
+    id 'kotlin-parcelize'
+}
+
+```
