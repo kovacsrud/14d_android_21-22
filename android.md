@@ -619,3 +619,14 @@ plugins {
 }
 
 ```
+Alakítsuk szerializálhatóvá a Person osztályt:
+```kotlin
+
+@Parcelize
+data class Person(
+    var vezeteknev:String,
+    var keresztnev:String,
+    var szuletesiev:Int
+) :Parcelable{}
+
+```
