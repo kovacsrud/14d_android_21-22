@@ -476,3 +476,17 @@ Az activity_main.xml be tegyük be a következőt:
 
   />
 ```
+## Nézetek
+Az apphoz három layoutot kell készíteni. Minden fragmentnek meglesz a saját layoutja, valamit a listaelemnek is kell egy layoutot készíteni.
+        
+## PersonAdapter készítése
+A RecyclerView használatához szükség van egy adapter osztály készítésére. Az adapter osztálynak meg kell valósítania egy ún. ViewHolder-t, illetve az ehhez tartozó metódusokat.
+        
+Hozzunk létre egy új osztályt PersonAdapter néven.
+Az osztály kezdő kódja:
+```kotlin
+class PersonAdapter(private val context:Context,val data:List<Person>) {
+
+}
+```
+        
