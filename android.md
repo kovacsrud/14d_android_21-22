@@ -510,3 +510,20 @@ A PersonViewHolder-ben azonosítjuk, deklaráljuk azokat az elemeket, amit a lis
         
     }
 ```
+Valósítsuk meg az osztály által igényelt metódusokat.
+```kotlin
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
+        val itemView=LayoutInflater.from(context).inflate(R.layout.list_item,parent,false)
+        return PersonViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
+        val aktData:Person=data[position]
+        holder.vezeteknev?.text=aktData.vezeteknev
+        holder.keresztnev?.text=aktData.keresztnev
+    }
+
+    override fun getItemCount(): Int {
+       return data.size
+    }
+```
