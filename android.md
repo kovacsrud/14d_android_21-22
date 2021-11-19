@@ -583,3 +583,11 @@ holder?.itemView.setOnClickListener {
 }
 
 ```        
+A Fragmentben az adapter példányosítása így módosul:
+```kotlin
+adapter=PersonAdapter(requireContext(),adatok){
+    itemDto:Person,position:Int->
+    Log.i("Klikkelés","Klikk ${itemDto.keresztnev}")
+
+}
+```        
