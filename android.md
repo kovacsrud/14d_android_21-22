@@ -639,5 +639,38 @@ Meg kell nyitni a navigációt.
 
 Nyissuk meg a DetailFragment-et!
 
-        
-        
+Adjuk hozzá a binding deklarációját:
+```kotlin
+private lateinit var binding: FragmentDetailBinding        
+```
+Az OnCreateView metódusba pedig:
+```kotlin
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        val aktPerson=DetailFragmentArgs.fromBundle(requireArguments()).aktPerson
+        binding.person=aktPerson
+
+        return binding.root
+```
+Az egész osztály egyben:
+```kotlin
+
+class DetailFragment : Fragment() {
+    private lateinit var binding: FragmentDetailBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        val aktPerson=DetailFragmentArgs.fromBundle(requireArguments()).aktPerson
+        binding.person=aktPerson
+
+        return binding.root
+
+    }
+
+}
+```
