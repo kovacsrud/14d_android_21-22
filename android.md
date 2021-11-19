@@ -591,3 +591,23 @@ adapter=PersonAdapter(requireContext(),adatok){
 
 }
 ```        
+## A navigálás megvalósítása
+A navigálás megvalósításához két sor fog kelleni.
+Először meg kell keresni a navcontrollert
+```kotlin
+val navController=this.findNavController()
+```
+A navigálás parancsa:
+```kotlin
+navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment())
+```
+Egyben:
+```kotlin
+val navController=this.findNavController()
+
+adapter= PersonAdapter(requireContext(),adatok){
+        itemDto:Person,position:Int->
+        Log.i("Click","${itemDto.keresztnev}")
+        navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment())
+   }
+```
