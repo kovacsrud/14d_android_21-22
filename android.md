@@ -420,3 +420,271 @@ A viewmodel létrehozása annyiban módosul, hogy a this mellett a factory-t is 
 viewModel=ViewModelProvider(this,viewModelFactory).get(PracticeViewModel::class.java)
 ```
         
+## Listakezelés a programban, RecyclerView használata.
+
+A legtöbb mobil app használ listát. Android esetén kizárólag a RecyclerView használatát javasolják, mert ez a komponens nagy számú listaelem esetén is jó teljesítményt nyújt(nem akad meg a görgetés stb.)
+Cserébe az implementálása nem annyira egyszerű.
+Az app navigációt is fog alkalmazni, ezért az ehhez szükséges függőségeket is telepíteni kell, mint korábban.
+        
+Gradle Scripts-en belül meg kell nyitni a **build.gradle(Project...)** fájlt, és abba a következőket beírni a dependencies részhez:
+```Kotlin
+dependencies {
+        ...
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+        
+    }
+```
+Ezt követően meg kell nyitni a **build.gradle(Module..)** fájlt és abba a következőket megadni a **plugins** részen belül:
+A **...** azokat a részeket jelenti amelyek eleve benne vannak, tehát nem kell három pontot beírni!!!!!
+
+```Kotlin
+plugins {
+    ...
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs' 
+}
+```
+
+A függőségek részhez a következőket kell hozzáadni:
+
+```Kotlin
+dependencies {
+        ...
+        implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+        implementation "androidx.navigation:navigation-ui-ktx:2.3.5" 
+        implementation "androidx.recyclerview:recyclerview:1.2.1"
+}
+```       
+Adatkötés használata:
+```kotlin
+ buildFeatures {
+    dataBinding true
+ }
+```
+A **Sync** megnyomása után készen állunk a navigáció megvalósítására.
+
+Az activity_main.xml be tegyük be a következőt:
+
+```Kotlin
+  <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost='true'
+        app:navGraph='@navigation/navigation'
+
+  />
+```
+## Nézetek
+Az apphoz három layoutot kell készíteni. Minden fragmentnek meglesz a saját layoutja, valamit a listaelemnek is kell egy layoutot készíteni.
+        
+## PersonAdapter készítése
+A RecyclerView használatához szükség van egy adapter osztály készítésére. Az adapter osztálynak meg kell valósítania egy ún. ViewHolder-t, illetve az ehhez tartozó metódusokat.
+        
+Hozzunk létre egy új osztályt PersonAdapter néven.
+Az osztály kezdő kódja:
+```kotlin
+class PersonAdapter(private val context:Context,val data:List<Person>) {
+        class PersonViewHolder(){
+    
+        }
+}
+```
+Származtassuk le a megfelelő osztályokból:
+```kotlin
+class PersonAdapter(private val context:Context,val data:List<Person>):RecyclerView.Adapter<PersonAdapter.PersonViewHolder>() {
+
+    class PersonViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        
+    }
+
+
+}
+```
+A PersonViewHolder-ben azonosítjuk, deklaráljuk azokat az elemeket, amit a lista megjelenít
+```kotlin
+ class PersonViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+            var vezeteknev:TextView=itemView.findViewById(R.id.list_vezeteknev)
+            var keresztnev:TextView=itemView.findViewById(R.id.list_keresztnev)
+        
+    }
+```
+Valósítsuk meg az osztály által igényelt metódusokat.
+```kotlin
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
+        val itemView=LayoutInflater.from(context).inflate(R.layout.list_item,parent,false)
+        return PersonViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
+        val aktData:Person=data[position]
+        holder.vezeteknev?.text=aktData.vezeteknev
+        holder.keresztnev?.text=aktData.keresztnev
+    }
+
+    override fun getItemCount(): Int {
+       return data.size
+    }
+```
+## A ListFragmentben deklaráljuk a következőket:
+```kotlin
+private lateinit var binding:FragmentListBinding
+private lateinit var layoutManager:LinearLayoutManager
+private  lateinit var adapter: PersonAdapter
+```
+Az OnCreateView így fog kinézni
+```kotlin
+  override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        var adatok= listOf(
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997),
+            Person("Kiss","Elek",1999),
+            Person("Kiss","Endre",1998),
+            Person("Kiss","Ubul",1997)
+
+        )
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_list,container,false)
+        adapter= PersonAdapter(requireContext(),adatok)
+        layoutManager= LinearLayoutManager(requireContext())
+        binding.lista.layoutManager=layoutManager
+        binding.lista.adapter=adapter
+
+
+        return binding.root
+        
+    }
+```
+## A lista elemeinek kattinthatóvá tétele
+
+A lista megjelenik, a következő feladat az elemeinek kattinthatóvá tétele.
+A PersonAdapter osztály fejlécéhez adjuk hozzá a következőt: val OnItemClick:((Person,Int)->Unit)
+```kotlin
+class PersonAdapter(private val context: Context, val data:List<Person>,val OnItemClick:((Person,Int)->Unit)):RecyclerView.Adapter<PersonAdapter.PersonViewHolder>(){
+        ...
+}
+```        
+Az OnBindViewHolder-t egészítsük ki:
+```kotlin
+holder?.itemView.setOnClickListener {
+     OnItemClick(aktData,position)
+}
+
+```        
+A Fragmentben az adapter példányosítása így módosul:
+```kotlin
+adapter=PersonAdapter(requireContext(),adatok){
+    itemDto:Person,position:Int->
+    Log.i("Klikkelés","Klikk ${itemDto.keresztnev}")
+
+}
+```        
+## A navigálás megvalósítása
+A navigálás megvalósításához két sor fog kelleni.
+Először meg kell keresni a navcontrollert
+```kotlin
+val navController=this.findNavController()
+```
+A navigálás parancsa:
+```kotlin
+navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment())
+```
+Egyben:
+```kotlin
+val navController=this.findNavController()
+
+adapter= PersonAdapter(requireContext(),adatok){
+        itemDto:Person,position:Int->
+        Log.i("Click","${itemDto.keresztnev}")
+        navController.navigate(ListFragmentDirections.actionListFragmentToDetailFragment())
+   }
+```
+A következő lépés, hogy betöltsük az osztályok szerializációját végző plugint. A build.gradle(Modules..) fájlt nyissuk meg, a pluginekhez adjuk hozzá a következőt:
+```kotlin
+plugins {
+    ...
+    id 'kotlin-parcelize'
+}
+
+```
+Alakítsuk szerializálhatóvá a Person osztályt:
+```kotlin
+
+@Parcelize
+data class Person(
+    var vezeteknev:String,
+    var keresztnev:String,
+    var szuletesiev:Int
+) :Parcelable{}
+
+```
+Meg kell nyitni a navigációt.
+ - Válasszuk ki a detailFragmentet
+ - Jobb oldalon keressük meg a következőt: **Arguments**
+ - Kattintsunk a **+**-ra
+ - A Type-nál gördítsük le a menüt, válasszuk a Custom Parcelable-t, itt meg fogjuk találni az osztályt
+ - adjunk nevet neki (aktPerson)
+
+Nyissuk meg a DetailFragment-et!
+
+Adjuk hozzá a binding deklarációját:
+```kotlin
+private lateinit var binding: FragmentDetailBinding        
+```
+Az OnCreateView metódusba pedig:
+```kotlin
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        val aktPerson=DetailFragmentArgs.fromBundle(requireArguments()).aktPerson
+        binding.person=aktPerson
+
+        return binding.root
+```
+Az egész osztály egyben:
+```kotlin
+
+class DetailFragment : Fragment() {
+    private lateinit var binding: FragmentDetailBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        val aktPerson=DetailFragmentArgs.fromBundle(requireArguments()).aktPerson
+        binding.person=aktPerson
+
+        return binding.root
+
+    }
+
+}
+```
+Navigáció a listára:
+Nyissuk meg a MainActiviy-t
+Az OnCreate-be jön a következő két sor:
+```kotlin
+  val navController=this.findNavController(R.id.nav_host_fragment)
+  NavigationUI.setupActionBarWithNavController(this,navController) 
+```
+Végezetül felül kell írni az OnSupportNavigateUp metódust:
+```kotlin
+ override fun onSupportNavigateUp(): Boolean {
+        val navController=this.findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp()
+    } 
+```
