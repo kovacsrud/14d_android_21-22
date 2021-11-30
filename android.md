@@ -688,3 +688,16 @@ Végezetül felül kell írni az OnSupportNavigateUp metódust:
         return navController.navigateUp()
     } 
 ```
+# Rest API hívása Android app-ból
+
+A következő függőségekre lesz szükség:
+```kotlin
+dependencies {
+    implementation "com.squareup.moshi:moshi:1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"        
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+```
