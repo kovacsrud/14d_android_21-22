@@ -715,4 +715,33 @@ Nyissuk meg az AndroidManifest állományt, mert az app számára engedélyezni 
 ```xml
   <uses-permission android:name="android.permission.INTERNET" />        
 ```
-        
+Először csinálunk egy Data Class-t, ez fogja majd tartalmazni az apitól lekért adatokat.
+```kotlin
+data class BlogAdat(
+    val id:Int,
+    val title:String,
+    val body:String,
+    val userId:Int
+)
+```
+A következő egy Api service lesz (menthetjük ApiService néven)
+```kotlin
+private const val BASE_URL="https://jsonplaceholder.typicode.com/posts/"
+
+private val moshi= Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+private val retrofit=Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl(
+    BASE_URL).build()
+
+interface ApiService {
+    @GET("1")
+    fun getData():Call<BlogAdat>
+}
+
+object BlogApi {
+    val retrofitService:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+```
+
