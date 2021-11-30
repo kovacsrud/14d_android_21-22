@@ -700,4 +700,19 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.12.0"
     implementation 'androidx.multidex:multidex:2.0.1'
 }
+
+A Moshi egy JSON library, a Retrofit pedig egy HTTP kliens. A Glide konyvtár segítségével pedig képeket tudunk letölteni, ha az api tartalmaz hivakozást ilyen jellegű adatra.
+       
 ```
+Adjuk hozzá az adatkötést is:
+```kotlin
+ buildFeatures {
+    dataBinding true
+ }
+```
+Nyissuk meg az AndroidManifest állományt, mert az app számára engedélyezni kell az internet hozzáférést.
+Írjuk be az Application tag fölé:
+```xml
+  <uses-permission android:name="android.permission.INTERNET" />        
+```
+        
