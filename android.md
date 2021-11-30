@@ -688,3 +688,81 @@ Végezetül felül kell írni az OnSupportNavigateUp metódust:
         return navController.navigateUp()
     } 
 ```
+# Rest API hívása Android app-ból
+
+A következő függőségekre lesz szükség:
+```kotlin
+dependencies {
+    implementation "com.squareup.moshi:moshi:1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"        
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+    implementation 'androidx.multidex:multidex:2.0.1'
+}
+
+A Moshi egy JSON library, a Retrofit pedig egy HTTP kliens. A Glide konyvtár segítségével pedig képeket tudunk letölteni, ha az api tartalmaz hivakozást ilyen jellegű adatra.
+       
+```
+Adjuk hozzá az adatkötést is:
+```kotlin
+ buildFeatures {
+    dataBinding true
+ }
+```
+Nyissuk meg az AndroidManifest állományt, mert az app számára engedélyezni kell az internet hozzáférést.
+Írjuk be az Application tag fölé:
+```xml
+  <uses-permission android:name="android.permission.INTERNET" />        
+```
+Először csinálunk egy Data Class-t, ez fogja majd tartalmazni az apitól lekért adatokat.
+```kotlin
+data class BlogAdat(
+    val id:Int,
+    val title:String,
+    val body:String,
+    val userId:Int
+)
+```
+A következő egy Api service lesz (menthetjük ApiService néven)
+```kotlin
+private const val BASE_URL="https://jsonplaceholder.typicode.com/posts/"
+
+private val moshi= Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+private val retrofit=Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl(
+    BASE_URL).build()
+
+interface ApiService {
+    @GET("1")
+    fun getData():Call<BlogAdat>
+}
+
+object BlogApi {
+    val retrofitService:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+```
+A MainActivity-be csinálunk binding-ot (a layout-ot ne felejtsük konvertálni!)
+```kotlin
+private lateinit var binding: ActivityMainBinding
+        ...
+ binding=DataBindingUtil.setContentView(this,R.layout.activity_main)        
+```
+Ezt követi az előbb létrehozott service meghívása:
+```kotlin
+ BlogApi.retrofitService.getData().enqueue(object :
+            retrofit2.Callback<BlogAdat> {
+
+            override fun onResponse(call: Call<BlogAdat>, response: Response<BlogAdat>) {
+                val valasz=response.body()
+                binding.blogadat=valasz
+                }
+
+            override fun onFailure(call: Call<BlogAdat>, t: Throwable) {
+                val valasz="Error"
+                Log.e("Api","Api hiba")
+                }
+            })
+```
