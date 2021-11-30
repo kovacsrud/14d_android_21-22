@@ -744,4 +744,25 @@ object BlogApi {
     }
 }
 ```
+A MainActivity-be csinálunk binding-ot (a layout-ot ne felejtsük konvertálni!)
+```kotlin
+private lateinit var binding: ActivityMainBinding
+        ...
+ binding=DataBindingUtil.setContentView(this,R.layout.activity_main)        
+```
+Ezt követi az előbb létrehozott service meghívása:
+```kotlin
+ BlogApi.retrofitService.getData().enqueue(object :
+            retrofit2.Callback<BlogAdat> {
 
+            override fun onResponse(call: Call<BlogAdat>, response: Response<BlogAdat>) {
+                val valasz=response.body()
+                binding.blogadat=valasz
+                }
+
+            override fun onFailure(call: Call<BlogAdat>, t: Throwable) {
+                val valasz="Error"
+                Log.e("Api","Api hiba")
+                }
+            })
+```
