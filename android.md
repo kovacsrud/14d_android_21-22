@@ -852,3 +852,57 @@ object BlogApi {
 }
 
 ```
+
+```kotlin
+        private const val BASE_URL="https://jsonplaceholder.typicode.com/"
+
+private val moshi=Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+private val retrofit=Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(BASE_URL)
+    .build()
+
+interface ApiService {
+    @GET("posts")
+    fun getData(): Call<List<BlogData>>
+}
+
+object BlogApi {
+    val retrofitService:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+
+
+A MainActivity így fog kinézni:
+```kotlin
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var adapter: BlogDataAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding=DataBindingUtil.setContentView(this,R.layout.activity_main)
+        layoutManager= LinearLayoutManager(this)
+
+        BlogApi.retrofitService.getData().enqueue(object:
+            retrofit2.Callback<List<BlogData>>{
+            override fun onResponse(call: Call<List<BlogData>>,response: Response<List<BlogData>>) {
+                val data=response.body()
+                adapter= BlogDataAdapter(this@MainActivity,data!!)
+                binding.lista.layoutManager=layoutManager
+                binding.lista.adapter=adapter
+            }
+
+            override fun onFailure(call: Call<List<BlogData>>, t: Throwable) {
+                Log.e("API error","Api hiba")
+            }
+
+        })
+
+
+    }
+}
+```
