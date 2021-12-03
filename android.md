@@ -785,6 +785,11 @@ Kell a data binding is:
         dataBinding true
     } 
 ```
+Nyissuk meg az AndroidManifest állományt, mert az app számára engedélyezni kell az internet hozzáférést.
+Írjuk be az Application tag fölé:
+```xml
+  <uses-permission android:name="android.permission.INTERNET" />        
+```
         
 Az adat osztály:
 ```kotlin
