@@ -795,3 +795,6 @@ data class BlogData(
     val body:String
 )
 ```
+A MainActivity layoutja egyszerű lesz, pusztán csak egy RecyclerView-t fog tartalmazni.
+Kell készíteni, egy másik layout-ot, ez fogja majd megjeleníteni a lista egy elemét. Ez lesz a list_item.xml
+A listaelemnél csak az id és a title fog megjelenni.
