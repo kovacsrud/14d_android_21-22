@@ -798,3 +798,57 @@ data class BlogData(
 A MainActivity layoutja egyszerű lesz, pusztán csak egy RecyclerView-t fog tartalmazni.
 Kell készíteni, egy másik layout-ot, ez fogja majd megjeleníteni a lista egy elemét. Ez lesz a list_item.xml
 A listaelemnél csak az id és a title fog megjelenni.
+
+Készítsük el az adapter osztályt a recyclerview-hoz, ez lesz a BlogDataAdapter:
+```kotlin
+class BlogDataAdapter(private val context: Context,val data:List<BlogData>):RecyclerView.Adapter<BlogDataAdapter.BlogDataViewHolder>() {
+
+
+    class BlogDataViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+        var id:TextView=itemView.findViewById(R.id.blog_id)
+        var title:TextView=itemView.findViewById(R.id.blog_title)
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BlogDataViewHolder {
+        val itemView=LayoutInflater.from(context).inflate(R.layout.list_item,parent,false)
+        return  BlogDataViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: BlogDataViewHolder, position: Int) {
+        val aktData:BlogData=data[position]
+        holder.id?.text=aktData.id.toString()
+        holder.title?.text=aktData.title
+
+    }
+
+    override fun getItemCount(): Int {
+        return data.size
+    }
+
+
+}
+```
+A következő az ApiService:
+```kotlin
+private const val BASE_URL="https://jsonplaceholder.typicode.com/"
+
+private val moshi=Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+private val retrofit=Retrofit.Builder()
+    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .baseUrl(BASE_URL)
+    .build()
+
+interface ApiService {
+    @GET("posts")
+    fun getData(): Call<List<BlogData>>
+}
+
+object BlogApi {
+    val retrofitService:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+
+```
