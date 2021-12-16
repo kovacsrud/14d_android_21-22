@@ -924,3 +924,38 @@ classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
        
     }
 ```
+Ezután nyissuk meg a build.gradle(Module....) fájlt! 
+A plugins részhez adjuk hozzá a következőket:
+```kotlin
+        plugins {
+    ***
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+    id 'kotlin-parcelize'
+}
+```
+Adjuk hozzá az adatkötést:
+```kotlin
+ buildFeatures {
+        dataBinding true
+    }
+```
+Majd a következő függőségeket:
+```kotlin
+dependencies {
+
+    ***
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "com.squareup.moshi:moshi:1.12.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.12.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.9.0"
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    ***
+}
+```
