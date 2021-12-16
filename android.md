@@ -1040,6 +1040,7 @@ data class UserResults(
 )
 ```
 ### Adapter osztály a listához:
+A képnek csak az url-jét tartalmazza az adat, az url-t felhasználva a Glide segítségével töltjük le, majd helyezzük el az ImageView-ba a képet.
 ```kotlin
 class UserDataAdapter(val context: Context,val data:UserResults,val onItemClick:((UserData,Int)->Unit)):RecyclerView.Adapter<UserDataAdapter.UserDataViewHolder>() {
 
