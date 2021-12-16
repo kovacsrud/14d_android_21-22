@@ -911,3 +911,16 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+## Api hívása navigációval, kép letöltéssel (https://randomuser.me)
+        
+Ebben az appban megint a random useradatokat szolgáltató API-t hívjuk meg. Kihívás, hogy a válaszban beágyazott objektumok is vannak, erre figyelemmel kell lenni a feldolgozás során. Figyelni kell arra is, hogy a szervernek adatokat küldünk, ami ugye a lekérdezni kívánt userek számát jelenti. Az api hívás eredménye egy lista lesz, a listaelemre bökve pedig a listaelem részletei lesznek láthatóak.
+##Függőségek megadása
+Először nyissuk meg a build.gradle(Project...) fájlt és a dependencies részhez adjuk hozzá a következő sort:
+```kotlin
+ dependencies {
+
+        ***
+classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
+       
+    }
+```
