@@ -1070,3 +1070,24 @@ class UserDataAdapter(val context: Context,val data:UserResults,val onItemClick:
     }
 }
 ```
+### Apiservice megvalósítása:
+Az előző példákhoz képest megjelenik egy Query annotation, itt lehet megadni a szerver felé, hogy hány usert akarunk lekérni.
+```kotlin
+private const val BASE_URL="https://randomuser.me/"
+
+private val moshi=Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+
+private val retrofit=Retrofit.Builder().addConverterFactory(MoshiConverterFactory.create(moshi)).baseUrl(
+    BASE_URL).build()
+
+interface ApiService {
+    @GET("api")
+    fun getAdatok(@Query("results") results:Int): Call<UserResults>
+}
+
+object UserDataApi {
+    val retrofitService:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
+    }
+}
+```
