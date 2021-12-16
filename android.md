@@ -998,3 +998,7 @@ Helyezzük el a következő elemet:
 ```
 Nyissuk meg az előbb létrehozott navigation.xml nevű resource fájlt! Adjuk hozzá először a listfragmentet, majd a detailfragmentet! A listfragment jobb oldalán fogjuk meg a kört és húzzuk a másikra. Ezzel létrehoztuk a navigációs action, navigáláskor ezt fogjuk majd hívni kódból.
         
+### Layout-ok elkészítése
+Három layout fog kelleni. A ListFragment layoutján csak a RecyclerView kap helyet. A DetailFragment layoutján a felhasználó képe, neve, telefonszámai, e.mail címe fog megjelenni. A harmadik layout a listaelem, ezen a felhasználó képe, valamit vezeték és keresztneve jelenik meg.
+        
+        
