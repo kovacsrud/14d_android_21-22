@@ -1138,3 +1138,27 @@ class ListFragment : Fragment() {
 }
 ```
         
+### DetailFragment megvalósítása
+Mielőtt ebbe belekezdünk meg kell nyitni a navigációt, és hozzá kell adni a detailfragment-hez egy argumentumot. Ez az argumentum adja meg, hogy milyen osztályt kap a fragment, amelynek az adatait majd megjeleníti. Ez az UserData lesz. Figyelni kell arra, hogy ennek az osztálynak Parcelable annotációval kell rendelkeznie!
+```kotlin
+class DetailFragment : Fragment() {
+    private lateinit var binding: FragmentDetailBinding
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        val aktUser=DetailFragmentArgs.fromBundle(requireArguments()).userdata
+        Glide.with(requireContext()).load(aktUser.picture.large).circleCrop().into(binding.userPicture)
+        binding.userdata=aktUser
+
+
+        return binding.root
+   
+    }
+
+
+}
+```
