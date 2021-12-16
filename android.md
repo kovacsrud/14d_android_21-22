@@ -1001,4 +1001,5 @@ Nyissuk meg az előbb létrehozott navigation.xml nevű resource fájlt! Adjuk h
 ### Layout-ok elkészítése
 Három layout fog kelleni. A ListFragment layoutján csak a RecyclerView kap helyet. A DetailFragment layoutján a felhasználó képe, neve, telefonszámai, e.mail címe fog megjelenni. A harmadik layout a listaelem, ezen a felhasználó képe, valamit vezeték és keresztneve jelenik meg.
         
-        
+### Adat osztályok készítése
+Mivel az api válaszában beágyazott objektumok vannak, ezért ezeket külön adatosztályokkal kell majd leírni.
