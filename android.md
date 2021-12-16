@@ -959,7 +959,7 @@ dependencies {
     ***
 }
 ```
-Hozzunk létre két fragmentet, az egyik legyen **ListFragment**, a másik **DetailFragment** ! Töröljük ki a felesleges részeket!
+### Hozzunk létre két fragmentet, az egyik legyen **ListFragment**, a másik **DetailFragment** ! Töröljük ki a felesleges részeket!
 A felesleges részek törlése után így néz ki a fragment kódja:
 ```kotlin
 class ListFragment : Fragment() {
@@ -977,4 +977,24 @@ class ListFragment : Fragment() {
 
 }
 ```
+A másik fragmentnél is hasonlóan kell eljárni.
+        
+### Hozzuk létre a navigációt leíró fájlt, **navigation** néven!
+Res->New->Android Resource File
+Állítsuk a Resource Type-ot Navigation-ra, a name navigation legyen!
+  
+### Fragment megadása a MainActivity-ben
+Nyissuk meg a MainActivity-t töröljük ki a benne lévő TextView-t!
+Helyezzük el a következő elemet:
+```kotlin
+   <fragment
+          android:id="@+id/nav_host_fragment"
+          android:name="androidx.navigation.fragment.NavHostFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          app:defaultNavHost='true'
+          app:navGraph='@navigation/navigation'
+          />
+```
+Nyissuk meg az előbb létrehozott navigation.xml nevű resource fájlt! Adjuk hozzá először a listfragmentet, majd a detailfragmentet! A listfragment jobb oldalán fogjuk meg a kört és húzzuk a másikra. Ezzel létrehoztuk a navigációs action, navigáláskor ezt fogjuk majd hívni kódból.
         
