@@ -1003,3 +1003,39 @@ Három layout fog kelleni. A ListFragment layoutján csak a RecyclerView kap hel
         
 ### Adat osztályok készítése
 Mivel az api válaszában beágyazott objektumok vannak, ezért ezeket külön adatosztályokkal kell majd leírni.
+A következő adatosztályok fognak kelleni:
+A név tárolására:
+```kotlin
+@Parcelize
+data class UserName(
+    val title:String,
+    val first:String,
+    val last:String
+):Parcelable{}
+```
+A felhasználó képeinek tárolására:
+```kotlin
+@Parcelize
+data class UserPicture(
+    val large:String,
+    val medium:String,
+    val thumbnail:String
+):Parcelable{}
+```
+A felhasználó adatai:
+@Parcelize
+data class UserData(
+    val gender:String,
+    val email:String,
+    val name:UserName,
+    val phone:String,
+    val cell:String,
+    val picture:UserPicture
+):Parcelable {}
+
+Végül a results:
+```kotlin
+data class UserResults(
+    val results:List<UserData>
+)
+```
