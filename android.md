@@ -1023,6 +1023,7 @@ data class UserPicture(
 ):Parcelable{}
 ```
 A felhasználó adatai:
+```kotlin        
 @Parcelize
 data class UserData(
     val gender:String,
@@ -1032,7 +1033,7 @@ data class UserData(
     val cell:String,
     val picture:UserPicture
 ):Parcelable {}
-
+```
 Végül a results:
 ```kotlin
 data class UserResults(
