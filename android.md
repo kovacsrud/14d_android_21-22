@@ -935,6 +935,7 @@ A plugins részhez adjuk hozzá a következőket:
 }
 ```
 Adjuk hozzá az adatkötést:
+        
 ```kotlin
  buildFeatures {
         dataBinding true
